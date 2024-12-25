@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Notifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>YouTube Notifier</h1>
+        <form id="webhookForm">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
+            <label for="url">URL</label>
+            <input type="url" id="url" name="url" placeholder="Enter the URL" required>
+            <button type="submit">Send Notification</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('webhookForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const webhookUrl = "https://discord.com/api/webhooks/1321277869997162618/8gVLSCWMQkjqJgVw2nWALOxS4szJuJSE2tUo-GaW6I11CXnd6dVktVGJcxhR5SFft7W5";
+            const message = document.getElementById('message').value;
+            const url = document.getElementById('url').value;
+
+            const payload = {
+                username: "YouTube Notifier",
+                avatar_url: "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png",
+                embeds: [
+                    {
+                        title: "New Notification",
+                        description: message,
+                        url: url,
+                        color: 16711680 // Red color
+                    }
+                ]
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Notification sent successfully!");
+                } else {
+                    alert("Error sending notification.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error sending notification.");
+            });
+        });
+    </script>
+</body>
+</html>
